@@ -1,0 +1,44 @@
+CREATE KEYSPACE Students WITH REPLICATION = {'class':'SimpleStrategy','replication_factor':1};
+
+
+DESCRIBE KEYSPACES;
+
+
+USE Students;
+
+
+
+CREATE TABLE Students_Info (Student_Id int PRIMARY KEY, StudName text, DateOfJoining timestamp, Semester int,Dept_Name text);
+
+
+
+DESCRIBE TABLES;
+
+
+
+DESCRIBE TABLE Students_Info;
+
+
+BEGIN BATCH 
+
+INSERT INTO Students_Info(Student_Id,  StudName, DateOfJoining,  Semester,Dept_Name) VALUES (115,'Niranjan V S','2020-10-12',7,'CSE')
+
+INSERT INTO Students_Info(Student_Id,  StudName, DateOfJoining,  Semester,Dept_Name) VALUES (116,'Obed Junias','2020-10-14',7,'ISE')
+
+INSERT INTO Students_Info(Student_Id,  StudName, DateOfJoining,  Semester,Dept_Name) VALUES (117,'Raghavendra','2020-10-22',6,'CSE')
+
+INSERT INTO Students_Info(Student_Id,  StudName, DateOfJoining,  Semester,Dept_Name) VALUES (118,'Tarun M Krishna','2020-10-20',6,'ECE')
+
+INSERT INTO Students_Info(Student_Id,  StudName, DateOfJoining,  Semester,Dept_Name) VALUES (119,'Guru Prasad','2020-09-12',8,'EEE')
+
+INSERT INTO Students_Info(Student_Id,  StudName, DateOfJoining,  Semester,Dept_Name) VALUES (120,'Abhishek','2020-08-02',5,'TCE')
+
+INSERT INTO Students_Info(Student_Id,  StudName, DateOfJoining,  Semester,Dept_Name) VALUES (121,'Sunil Shetty','2020-08-12',3,'ME')
+
+APPLY BATCH;
+
+
+
+SELECT * FROM  Students_Info;
+
+UPDATE students_info SET StudName = 'John' WHERE Student_ID=121;
