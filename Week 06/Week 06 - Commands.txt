@@ -1,0 +1,72 @@
+CREATE KEYSPACE employee WITH REPLICATION = {'class':'SimpleStrategy','replication_factor':1};
+
+USE employee;
+
+CREATE TABLE employee_info (employee_id int PRIMARY KEY, employee_name text,designation text, date_of_joining timestamp, salary double,department_name text);
+
+BEGIN BATCH
+INSERT INTO employee_info(employee_id , employee_name ,designation , date_of_joining ,salary ,department_name) VALUES(117,'Niranjan V S','Software Developer','2020-10-19',60000,'Development')
+INSERT INTO employee_info(employee_id , employee_name ,designation , date_of_joining ,salary ,department_name) VALUES(118,'Obed Junias','Software Developer in Test','2020-01-15',55000,'Testing')
+INSERT INTO employee_info(employee_id , employee_name ,designation , date_of_joining ,salary ,department_name) VALUES(119,'Raghavendra','Operations Lead','2018-04-17',90000,'Operations')
+INSERT INTO employee_info(employee_id , employee_name ,designation , date_of_joining ,salary ,department_name) VALUES(120,'Tarun M Krishna','New Talent Recruiter','2019-02-03',65000,'Recruitment')
+INSERT INTO employee_info(employee_id , employee_name ,designation , date_of_joining ,salary ,department_name) VALUES(121,'Ranveer Singh','HR','2019-12-23',62000,'HR')
+APPLY BATCH;
+SELECT * FROM employee_info;
+
+UPDATE employee_info SET employee_name = 'Shreyas K' , department_name='Sales' WHERE employee_id=121;
+SELECT * FROM employee_info;
+
+ALTER TABLE employee.employee_info ADD projects set<text>;
+SELECT * FROM employee_info;
+
+UPDATE employee_info SET projects = projects + {'Libaray Management System'} WHERE employee_id = 117;
+UPDATE employee_info SET projects = projects + {'Student Information System'} WHERE employee_id = 118;
+UPDATE employee_info SET projects = projects + {'Student Information Management System'} WHERE employee_id = 119;
+UPDATE employee_info SET projects = projects + {'Stock Management System'} WHERE employee_id = 120;
+UPDATE employee_info SET projects = projects + {'Project Management System'} WHERE employee_id = 121;
+SELECT * FROM employee_info;
+
+INSERT INTO employee_info(employee_id , employee_name ,designation , date_of_joining ,salary ,department_name) VALUES(122,'Abhijeet Kohli','Software Developer','2020-10-19',60000,'Development') USING TTL 15;
+SELECT * FROM employee_info;
+
+SELECT TTL(designation) FROM employee_Info where employee_id=122;
+SELECT * FROM employee_info;
+
+SELECT * FROM employee_info;
+
+
+
+
+
+
+CREATE KEYSPACE library WITH REPLICATION = {'class':'SimpleStrategy','replication_factor':1};
+
+DESCRIBE KEYSPACES;
+
+USE library;
+
+CREATE TABLE library_info (student_id int,counter_value counter, student_name text,book_name text,book_id int,date_of_issue timestamp,PRIMARY KEY(student_id,student_name,book_name,book_id,date_of_issue));
+
+DESCRIBE TABLES;
+
+DESCRIBE TABLE library_info;
+
+
+UPDATE library_info SET counter_value = counter_value+1 WHERE student_id=114 and student_name='Niranjan V S' AND book_name='SQM' and book_id=141 and date_of_issue='2020-11-03' ;
+UPDATE library_info SET counter_value = counter_value+1 WHERE student_id=111 and student_name='Obed Junias' AND book_name='DSR' and book_id=131 and date_of_issue='2020-11-05' ;
+UPDATE library_info SET counter_value = counter_value+1 WHERE student_id=113 and student_name='Raghavendra' AND book_name='BDA' and book_id=121 and date_of_issue='2020-11-05' ;
+UPDATE library_info SET counter_value = counter_value+1 WHERE student_id=112 and student_name='Tarun M Krishna' AND book_name='BDA' and book_id=122 and date_of_issue='2020-10-05' ;
+UPDATE library_info SET counter_value = counter_value+1 WHERE student_id=115 and student_name='Shreyas K' AND book_name='DSR' and book_id=132 and date_of_issue='2020-11-04' ;
+
+
+SELECT * FROM  library_info;
+
+UPDATE library_info SET counter_value = counter_value+1 WHERE student_id=112 and student_name='Tarun M Krishna' AND book_name='BDA' and book_id=122 and date_of_issue='2020-10-05' ;
+
+select book_name,counter_value from library_info where student_id=112;
+
+COPY library_info(student_id,counter_value,student_name,book_name,book_id,date_of_issue) TO '.\library_information.csv';
+
+COPY library_info(student_id,counter_value,student_name,book_name,book_id,date_of_issue) FROM '.\library_information.csv';
+
+SELECT * FROM  library_info;
